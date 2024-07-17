@@ -1,0 +1,110 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+/cypress/videos/
+/cypress/screenshots/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.tsbuildinfo
+# 忽略操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 忽略日志文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 忽略环境变量文件
+.env
+.env.local
+.env.*.local
+
+# 忽略node_modules文件夹
+node_modules/
+
+# 忽略打包输出文件
+dist/
+build/
+out/
+
+# 忽略临时文件
+*.swp
+*.swo
+*.tmp
+*.temp
+
+# 忽略IDE/编辑器配置文件
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# 忽略依赖包
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# 忽略Webpack/Babel等工具生成的文件
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.svelte-kit/
+.snowpack/
+.vite/
+build/
+
+# 忽略测试结果文件
+coverage/
+*.lcov
+
+# 忽略ESLint缓存
+*.eslintcache
+
+# 忽略TypeScript编译输出
+*.tsbuildinfo
+
+# 忽略Jest生成的文件
+.jest/
+
+# Vue.js特有的忽略规则
+.vuetify/
+.vite/
+.vuepress/
+
+# React特有的忽略规则
+.next/
+.gatsby/
+expo/
+
+# Angular特有的忽略规则
+.angular/
+.angular-builds/
+
+# 自定义忽略规则
+your_custom_folder/
+your_custom_file.ext
