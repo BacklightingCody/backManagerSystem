@@ -12,6 +12,11 @@ import { RouterView } from 'vue-router'
 body{
   @apply bg-gray-100 z-0
 }
+
+/*::-webkit-scrollbar {
+  display: none;
+}
+  */
 #nprogress .bar{
   background-color:#29d;
   height: 3px;

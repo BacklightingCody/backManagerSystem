@@ -4,7 +4,7 @@ import { startProgress, closeProgress } from '@/utils/progressBar'
 import { useUserStore } from '@/stores'
 // 单独提出来加上type类型
 import type { RouterOptions, Router, RouteRecordRaw } from 'vue-router'
-
+import { asyncRoutes } from './asyncRoutes'
 // 自定义的 RouteRecordRaw 类型，将 redirect 属性设为可选的
 // interface CustomRouteRecordRaw extends Omit<RouteRecordRaw, 'redirect'> {
 //   redirect?: RouteRecordRaw['redirect'];
@@ -12,7 +12,7 @@ import type { RouterOptions, Router, RouteRecordRaw } from 'vue-router'
 // 默认路由
 const routes: RouteRecordRaw[] = [
   {
-    path: '',
+    path: '/',
     name: 'home',
     meta: {
       title: '首页',
@@ -22,180 +22,12 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '/',
-        name: 'home',
+        name: 'index',
         meta: {
-          title: '后台首页',
+          title: '首页',
           roles: ['超级管理员']
         },
         component: () => import('@/views/home/index.vue')
-      },
-      // 商品
-      {
-        path: '/goods/list',
-        name: 'goods',
-        meta: {
-          title: '商品管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/goods/index.vue')
-      },
-      {
-        path: '/category/list',
-        name: 'category',
-        meta: {
-          title: '分类管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/goods/category/index.vue')
-      },
-      {
-        path: '/skus/list',
-        name: 'skus',
-        meta: {
-          title: '规格管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/goods/skus/index.vue')
-      },
-      {
-        path: '/coupon/list',
-        name: 'coupon',
-        meta: {
-          title: '优惠券管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/goods/coupon/index.vue')
-      },
-      // 用户
-      {
-        path: '/user/list',
-        name: 'user',
-        meta: {
-          title: '用户管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/user/index.vue')
-      },
-      {
-        path: '/level/list',
-        name: 'member',
-        meta: {
-          title: '会员等级',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/user/member/index.vue')
-      },
-      // 订单
-      {
-        path: '/order/list',
-        name: 'order',
-        meta: {
-          title: '订单管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/order/index.vue')
-      },
-      {
-        path: '/comment/list',
-        name: 'comment',
-        meta: {
-          title: '评论管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/order/comment/index.vue')
-      },
-      // 管理员
-      {
-        path: '/manager/list',
-        name: 'manager',
-        meta: {
-          title: '管理员管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/manager/index.vue')
-      },
-      {
-        path: '/access/list',
-        name: 'access',
-        meta: {
-          title: '权限管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/manager/access/index.vue')
-      },
-      {
-        path: '/role/list',
-        name: 'role',
-        meta: {
-          title: '角色管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/manager/role/index.vue')
-      },
-      // 系统设置
-      {
-        path: '/setting/base',
-        name: 'setting',
-        meta: {
-          title: '基础设置',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/system/base/index.vue')
-      },
-      {
-        path: '/settting/buy',
-        name: 'settingbuy',
-        meta: {
-          title: '交易设置',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/system/trade/index.vue')
-      },
-      {
-        path: '/setting/logistics',
-        name: 'settinglogistics',
-        meta: {
-          title: '物流设置',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/system/logistics/index.vue')
-      },
-      // 分销模块
-      {
-        path: '/distribution/index',
-        name: 'distribution',
-        meta: {
-          title: '分销员管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/distribution/distributor/index.vue')
-      },
-      {
-        path: '/distribution/setting',
-        name: 'distributionsettting',
-        meta: {
-          title: '分销设置',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/distribution/index.vue')
-      },
-      {
-        path: '/image/list',
-        name: 'picture',
-        meta: {
-          title: '图库管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/other/index.vue')
-      },
-      {
-        path: '/notice/list',
-        name: 'notice',
-        meta: {
-          title: '公告管理',
-          roles: ['超级管理员']
-        },
-        component: () => import('@/views/other/bell/index.vue')
       }
     ]
   },
@@ -217,177 +49,6 @@ const routes: RouteRecordRaw[] = [
       roles: ['超级管理员']
     },
     component: () => import('@/views/404.vue')
-  }
-]
-
-// 动态路由
-const asyncRoutes: RouteRecordRaw[] = [
-  {
-    path: '/goods/list',
-    name: 'goods',
-    meta: {
-      title: '商品管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/goods/index.vue')
-  },
-  {
-    path: '/category/list',
-    name: 'category',
-    meta: {
-      title: '分类管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/goods/category/index.vue')
-  },
-  {
-    path: '/skus/list',
-    name: 'skus',
-    meta: {
-      title: '规格管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/goods/skus/index.vue')
-  },
-  {
-    path: '/coupon/list',
-    name: 'coupon',
-    meta: {
-      title: '优惠券管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/goods/coupon/index.vue')
-  },
-  // 用户
-  {
-    path: '/user/list',
-    name: 'user',
-    meta: {
-      title: '用户管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/user/index.vue')
-  },
-  {
-    path: '/level/list',
-    name: 'member',
-    meta: {
-      title: '会员等级',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/user/member/index.vue')
-  },
-  // 订单
-  {
-    path: '/order/list',
-    name: 'order',
-    meta: {
-      title: '订单管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/order/index.vue')
-  },
-  {
-    path: '/comment/list',
-    name: 'comment',
-    meta: {
-      title: '评论管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/order/comment/index.vue')
-  },
-  // 管理员
-  {
-    path: '/manager/list',
-    name: 'manager',
-    meta: {
-      title: '管理员管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/manager/index.vue')
-  },
-  {
-    path: '/access/list',
-    name: 'access',
-    meta: {
-      title: '权限管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/manager/access/index.vue')
-  },
-  {
-    path: '/role/list',
-    name: 'role',
-    meta: {
-      title: '角色管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/manager/role/index.vue')
-  },
-  // 系统设置
-  {
-    path: '/setting/base',
-    name: 'setting',
-    meta: {
-      title: '基础设置',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/system/base/index.vue')
-  },
-  {
-    path: '/settting/buy',
-    name: 'settingbuy',
-    meta: {
-      title: '交易设置',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/system/trade/index.vue')
-  },
-  {
-    path: '/setting/logistics',
-    name: 'settinglogistics',
-    meta: {
-      title: '物流设置',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/system/logistics/index.vue')
-  },
-  // 分销模块
-  {
-    path: '/distribution/index',
-    name: 'distribution',
-    meta: {
-      title: '分销员管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/distribution/distributor/index.vue')
-  },
-  {
-    path: '/distribution/setting',
-    name: 'distributionsettting',
-    meta: {
-      title: '分销设置',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/distribution/index.vue')
-  },
-  {
-    path: '/image/list',
-    name: 'picture',
-    meta: {
-      title: '图库管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/other/index.vue')
-  },
-  {
-    path: '/notice/list',
-    name: 'notice',
-    meta: {
-      title: '公告管理',
-      roles: ['超级管理员']
-    },
-    component: () => import('@/views/other/bell/index.vue')
   }
 ]
 
@@ -421,16 +82,23 @@ router.beforeEach(async (to, from, next) => {
     return next({ path: from.path || '/' })
   }
   // 如果 token 存在且用户信息未获取，则获取用户信息
-  if (token && userStore.isGetedInfo === false) {
-    await userStore.getUserInfo()
-    userStore.isGetedInfo = true
-    // if (userStore.user && userStore.user.menus) {
-    //   addRouteDynamical(userStore.user?.menus)
-    // }
+  const hasNewRoutes = false
+  if (token) {
+    console.log(userStore.isGetedInfo, 'kxc')
+    if (!userStore.isGetedInfo) {
+      await userStore.getUserInfo()
+    }
+    console.log(userStore.ruleNames, 'ruleNames')
+    // console.log(userStore.user!.menus, 222)
+    // addRouteDynamical(userStore.user!.menus)
+    // hasNewRoutes = addRouteDynamical(userStore.user!.menus)
+    addRouteDynamical(userStore.user!.menus)
   }
   // 设置页面标题
   const title = (to.meta.title ? to.meta.title : '') + '-Vite'
   document.title = title
+  console.log(to)
+  // hasNewRoutes ? next(to.fullPath) : next()
   next()
 })
 
@@ -438,16 +106,40 @@ router.afterEach((to, from, next) => {
   closeProgress()
 })
 // 动态添加路由export const addRouteDynamical = (routes: RouteRecordRaw[]) => {
-export const addRouteDynamical = (routes: RouteRecordRaw[]) => {
-  const findAndAddRoutes = (routes: RouteRecordRaw[]) => {
-    routes.forEach((route) => {
-      if (!router.hasRoute(route.name!)) {
-        router.addRoute(route)
+export const addRouteDynamical = (menus: any) => {
+  // console.log(menus,"menu")
+  // 是否有新的路由
+  let hasNewRoutes = false
+  const findAndAddRoutes = (routes: any) => {
+    // console.log(routes,'routes')
+    routes.forEach((route: any) => {
+      // console.log(route,"route")
+      // console.log(asyncRoutes, "asyncRoutes")
+      // console.log(asyncRoutes.find((item) => item.path === '/goods/list'),"find")  能找到没问题
+      const item = asyncRoutes.find((item: any) => {
+        // console.log(route, 'route')
+        // console.log(item.path, 'item')
+        if (route) {
+          // console.log(route.frontpath, 'routepath')
+          // console.log(item.path, 'item')
+          // console.log(route.frontpath, "route.path")
+          return item.path === route.frontpath
+        }
+      })
+      // console.log(item, "item")
+      // console.log(route.frontpath, 'route.name')
+      if (item && !router.hasRoute(item.path!)) {
+        // console.log('已加入')
+        router.addRoute('home', item)
+        hasNewRoutes = true
+        // console.log(item)
       }
-      if (route.children && route.children.length > 0) {
-        findAndAddRoutes(route.children)
+      if (route.child && route.child.length > 0) {
+        findAndAddRoutes(route.child)
       }
     })
   }
-  findAndAddRoutes(routes)
+  findAndAddRoutes(menus)
+  console.log(router.getRoutes(), 'getRoutes')
+  return hasNewRoutes
 }

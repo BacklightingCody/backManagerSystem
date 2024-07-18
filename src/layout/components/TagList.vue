@@ -109,12 +109,12 @@ const handleCommand = (command: string) => {
 
 
 <template>
-  <div class="fixed top-[60px] bg-gray-100 h-[40px] flex text-gray-50 w-[1336px] z-999">
-    <el-tabs v-model="activeTab" type="card" class="demo-tabs rounded" @edit="handleTabsEdit" @tab-change="tabChange">
+  <div class="fixed top-[60px] bg-gray-100 h-[40px] flex text-gray-50 w-[1300px] z-999">
+    <el-tabs v-model="activeTab" type="card" class="demo-tabs rounded" style="min-width:100px;" @edit="handleTabsEdit" @tab-change="tabChange">
       <el-tab-pane v-for="item in tabList" :closable="item.path!=='/'" :key="item.path" :label="item.title" :name="item.path" class="border-0 mx-1">
       </el-tab-pane>
     </el-tabs>
-    <span class="flex items-center justify-cente w-[32px] h-[40px]">
+    <span class="flex items-center justify-cente w-[32px] h-[40px] z-999">
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link ">
           <el-icon class="el-icon--right" size="20px">
@@ -155,5 +155,9 @@ const handleCommand = (command: string) => {
   background-color: white;
   margin: 0 5px;
   border-radius: 10px;
+}
+:deep(.el-tabs__nav-next),
+:deep(.el-tabs__nav-prev) {
+  font-size: 16px;
 }
 </style>

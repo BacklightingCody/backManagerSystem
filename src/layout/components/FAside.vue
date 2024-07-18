@@ -69,7 +69,6 @@ const handleClose = (key: string, keyPath: string[]) => {
   // console.log(key, keyPath)
 }
 const handleSelect = (index: string, indexPath: string[]) => {
-  // console.log(index)
   // console.log(indexPath)
   router.push(index)
 }
