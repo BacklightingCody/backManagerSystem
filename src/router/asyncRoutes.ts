@@ -1,9 +1,17 @@
-
 // 动态路由
 export const asyncRoutes: any = [
   {
+    path: '/',
+    name: 'home-home',
+    meta: {
+      title: '首页',
+      roles: ['超级管理员']
+    },
+    component: () => import('@/views/home/index.vue')
+  },
+  {
     path: '/goods/list',
-    name: 'goods',
+    name: '/goods/list',
     meta: {
       title: '商品管理',
       roles: ['超级管理员']
@@ -12,7 +20,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/category/list',
-    name: 'category',
+    name: '/category/list',
     meta: {
       title: '分类管理',
       roles: ['超级管理员']
@@ -21,7 +29,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/skus/list',
-    name: 'skus',
+    name: '/skus/list',
     meta: {
       title: '规格管理',
       roles: ['超级管理员']
@@ -30,7 +38,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/coupon/list',
-    name: 'coupon',
+    name: '/coupon/list',
     meta: {
       title: '优惠券管理',
       roles: ['超级管理员']
@@ -40,7 +48,7 @@ export const asyncRoutes: any = [
   // 用户
   {
     path: '/user/list',
-    name: 'user',
+    name: '/user/list',
     meta: {
       title: '用户管理',
       roles: ['超级管理员']
@@ -49,7 +57,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/level/list',
-    name: 'member',
+    name: '/level/list',
     meta: {
       title: '会员等级',
       roles: ['超级管理员']
@@ -59,7 +67,7 @@ export const asyncRoutes: any = [
   // 订单
   {
     path: '/order/list',
-    name: 'order',
+    name: '/order/list',
     meta: {
       title: '订单管理',
       roles: ['超级管理员']
@@ -68,7 +76,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/comment/list',
-    name: 'comment',
+    name: '/comment/list',
     meta: {
       title: '评论管理',
       roles: ['超级管理员']
@@ -78,7 +86,7 @@ export const asyncRoutes: any = [
   // 管理员
   {
     path: '/manager/list',
-    name: 'manager',
+    name: '/manager/list',
     meta: {
       title: '管理员管理',
       roles: ['超级管理员']
@@ -87,7 +95,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/access/list',
-    name: 'access',
+    name: '/access/list',
     meta: {
       title: '权限管理',
       roles: ['超级管理员']
@@ -96,7 +104,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/role/list',
-    name: 'role',
+    name: '/role/list',
     meta: {
       title: '角色管理',
       roles: ['超级管理员']
@@ -106,7 +114,7 @@ export const asyncRoutes: any = [
   // 系统设置
   {
     path: '/setting/base',
-    name: 'setting',
+    name: '/setting/base',
     meta: {
       title: '基础设置',
       roles: ['超级管理员']
@@ -115,7 +123,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/setting/buy',
-    name: 'settingbuy',
+    name: '/setting/buy',
     meta: {
       title: '交易设置',
       roles: ['超级管理员']
@@ -124,7 +132,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/setting/ship',
-    name: 'settingship',
+    name: '/setting/ship',
     meta: {
       title: '物流设置',
       roles: ['超级管理员']
@@ -134,7 +142,7 @@ export const asyncRoutes: any = [
   // 分销模块
   {
     path: '/distribution/index',
-    name: 'distribution',
+    name: '/distribution/index',
     meta: {
       title: '分销员管理',
       roles: ['超级管理员']
@@ -143,7 +151,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/distribution/setting',
-    name: 'distributionsettting',
+    name: '/distribution/setting',
     meta: {
       title: '分销设置',
       roles: ['超级管理员']
@@ -152,7 +160,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/image/list',
-    name: 'imagelist',
+    name: '/image/list',
     meta: {
       title: '图片管理',
       roles: ['超级管理员']
@@ -161,7 +169,7 @@ export const asyncRoutes: any = [
   },
   {
     path: '/notice/list',
-    name: 'noticelist',
+    name: '/notice/list',
     meta: {
       title: '公告管理',
       roles: ['超级管理员']

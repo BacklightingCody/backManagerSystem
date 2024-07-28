@@ -109,7 +109,7 @@ const handleCommand = (command: string) => {
 
 
 <template>
-  <div class="fixed top-[60px] bg-gray-100 h-[40px] flex text-gray-50 w-[1300px] z-999">
+  <div class="fixed top-[60px] bg-gray-100 h-[40px] flex text-gray-50 w-[1300px] z-100">
     <el-tabs v-model="activeTab" type="card" class="demo-tabs rounded" style="min-width:100px;" @edit="handleTabsEdit" @tab-change="tabChange">
       <el-tab-pane v-for="item in tabList" :closable="item.path!=='/'" :key="item.path" :label="item.title" :name="item.path" class="border-0 mx-1">
       </el-tab-pane>

@@ -1,31 +1,42 @@
 <template>
-  <el-container class="bg-white rounded px-[20px] py-0" :style="{ height: (h + 'px') }">
-    <el-header class="image-header">Header</el-header>
+  <el-container class="bg-white rounded px-[0px] py-0" :style="{ height: (h + 'px') }">
+    <el-header class="image-header">
+      <el-button type="primary" plain @click="openAddDarwer">
+        新增图片分类
+      </el-button>
+      <el-button type="warning" plain @click="openUploadDarwer">
+        上传图片
+      </el-button>
+    </el-header>
     <el-container>
-      <el-aside width="200px" class="image-aside">
-        <div class="top">
-          <p v-for="i in 50" :key="i">i</p>
-        </div>
-        <div class="bottom">
-
-        </div>
-
-      </el-aside>
-      <el-main class="image-main relative">
-        <div class="top">
-          <p v-for="i in 50" :key="i">i</p>
-        </div>
-        <div class="bottom">
-
-        </div>
-      </el-main>
+      <ImageAside ref="imageAsideRef" @change-active="handleActiveId" />
+      <ImageMain ref="imageMainRef" />
     </el-container>
   </el-container>
+
 </template>
 
 <script setup lang="ts">
+import ImageAside from './ImageAside.vue'
+import ImageMain from './ImageMain.vue'
+
 const windowHeight = window.innerHeight || document.body.clientHeight
 const h = windowHeight - 64 - 50
+
+// ImageAside
+const imageAsideRef = ref<InstanceType<typeof ImageAside>>()
+// 点击头部按钮打开弹窗
+const openAddDarwer = () => {
+  imageAsideRef.value!.showInitDrawer()
+}
+const openUploadDarwer = () => {
+  imageMainRef.value?.openUploadDrawer()
+}
+const handleActiveId = (id: number) => {
+  imageMainRef.value?.changeId(id)
+}
+// ImageMain
+const imageMainRef = ref<InstanceType<typeof ImageMain>>()
 </script>
 
 <style scoped lang="scss">
@@ -33,34 +44,7 @@ const h = windowHeight - 64 - 50
   border-bottom: solid 1px #eee;
   @apply bg-white flex items-center;
 }
-.image-aside {
-  border-right: solid 1px #eee;
-  @apply relative;
-}
-.top{
-@apply absolute top-0 left-0 right-0 overflow-hidden bottom-[50px] overflow-y-auto
-}
-.bottom{
-  @apply absolute bottom-0 left-0 right-0 h-[50px] bg-red-400;
-}
 </style>
 
 <style scoped>
-::-webkit-scrollbar {
-  width: 4px;
-  height: 6px;
-}
-::-webkit-scrollbar-corner {
-  display: block;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-::-webkit-scrollbar-thumb,
-::-webkit-scrollbar-track {
-  border-right-color: transparent;
-  border-left-color: transparent;
-  background-color: rgba(0, 0, 0, 0.1);
-}
 </style>

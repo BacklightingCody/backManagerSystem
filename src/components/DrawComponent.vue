@@ -1,7 +1,5 @@
 <template>
-  <el-drawer v-model="isDrawerShow"
-             :direction="drawerDirection"
-             :size="drawerSize">
+  <el-drawer v-model="isDrawerShow" :direction="drawerDirection" :size="drawerSize" class="z-999">
     <template #header>
       <span class="text-black text-xl">{{props.title}}</span>
     </template>
@@ -24,30 +22,17 @@
 import { ref, defineProps, watch, defineEmits, defineExpose } from 'vue'
 
 const props = defineProps<{
-  title:string,
-  confirmText?: string,
-  size?: string,
+  title: string
+  confirmText?: string
+  size?: string
   fixed?: boolean
-  direction?: string,
-  modelValue: boolean
+  direction?: string
 }>()
-const emit = defineEmits(['update:modelValue','submit'])
-const isDrawerShow = ref(props.modelValue)
+const emit = defineEmits(['update:modelValue', 'submit'])
+const isDrawerShow = ref(false)
 const drawerSize = ref(props.size || '40%')
 const drawerDirection = ref(props.direction || 'rtl')
 const loading = ref()
-watch(
-  () => props.modelValue,
-  (newVal) => {
-    isDrawerShow.value = newVal
-  }
-)
-
-watch(isDrawerShow, (newVal) => {
-  if (newVal !== props.modelValue) {
-    emit('update:modelValue', newVal)
-  }
-})
 
 const cancelClick = () => {
   isDrawerShow.value = false
@@ -57,17 +42,20 @@ const confirmClick = () => {
   // 确认逻辑
   emit('submit')
 }
+const showDrawer = () => {
+  isDrawerShow.value = true
+}
+const hideDrawer = () => {
+  isDrawerShow.value = false
+}
+const toggleDrawer = () => {
+  isDrawerShow.value = !isDrawerShow.value
+}
 defineExpose({
   loading,
-  showDrawer: () => {
-    isDrawerShow.value = true
-  },
-  hideDrawer: () => {
-    isDrawerShow.value = false
-  },
-  toggleDrawer: () => {
-    isDrawerShow.value = !isDrawerShow.value
-  }
+  showDrawer,
+  hideDrawer,
+  toggleDrawer,
 })
 </script>
 

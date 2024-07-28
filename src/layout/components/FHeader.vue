@@ -32,11 +32,7 @@ const handleCommand = (command: string | number | object) => {
 const handleRefresh = () => {
   location.reload()
 }
-const editPassword = () => {
-  isDrawerShow.value = true
-}
 // 抽屉
-const isDrawerShow = ref(false)
 const drawerRef = ref()
 const confirmClick = async (formEl: FormInstance | undefined) => {
   drawerRef.value.loading = true
@@ -47,10 +43,13 @@ const confirmClick = async (formEl: FormInstance | undefined) => {
   } catch (error) {
     console.error('Error:', error)
   } finally {
-    drawerRef.value = false // 无论成功或失败，都会在最后设置加载状态为 false
+    drawerRef?.value?.hideDrawer() // 无论成功或失败，都会在最后设置加载状态为 false
   }
 }
 // 修改密码
+const editPassword = () => {
+  drawerRef?.value?.showDrawer()
+}
 const triggerMethod: string = 'blur'
 const formModel = reactive({
   oldpassword: '',
@@ -61,11 +60,21 @@ const formRef = ref<FormInstance>()
 const rules = reactive<FormRules>({
   oldpassword: [
     { required: true, message: '请输入旧密码', trigger: triggerMethod },
-    { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: triggerMethod }
+    {
+      min: 3,
+      max: 10,
+      message: '长度在 3 到 10 个字符',
+      trigger: triggerMethod
+    }
   ],
   newpassword: [
     { required: true, message: '请输入新密码', trigger: triggerMethod },
-    { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: triggerMethod }
+    {
+      min: 3,
+      max: 10,
+      message: '长度在 3 到 10 个字符',
+      trigger: triggerMethod
+    }
   ],
   repassword: [
     { required: true, message: '请输入确认密码', trigger: triggerMethod },
@@ -85,74 +94,44 @@ const rules = reactive<FormRules>({
 <template>
   <div class="flex bg-indigo-500 text-light-50 fixed top-0 right-0 left-0 items-center lay-header h-[60px] z-999">
     <div class="logo w-[200px] flex justify-center items-center">
-      <el-icon :size="30"
-               class="icon-btn">
+      <el-icon :size="30" class="icon-btn">
         <ElementPlus />
       </el-icon>
       后台管理
     </div>
 
-    <el-tooltip class="box-item"
-                effect="dark"
-                content="展开"
-                placement="top"
-                v-if="layoutStore.isCollapse">
-      <el-icon :size="20"
-               class="icon-btn" @click="layoutStore.toggleCollapse">
+    <el-tooltip class="box-item" effect="dark" content="展开" placement="top" v-if="layoutStore.isCollapse">
+      <el-icon :size="20" class="icon-btn" @click="layoutStore.toggleCollapse">
         <Fold />
       </el-icon>
     </el-tooltip>
-    <el-tooltip class="box-item"
-                effect="dark"
-                content="折叠"
-                placement="top"
-               v-else>
-      <el-icon :size="20"
-               class="icon-btn" @click="layoutStore.toggleCollapse">
+    <el-tooltip class="box-item" effect="dark" content="折叠" placement="top" v-else>
+      <el-icon :size="20" class="icon-btn" @click="layoutStore.toggleCollapse">
         <Expand />
       </el-icon>
     </el-tooltip>
-    <el-tooltip class="box-item"
-                effect="dark"
-                content="刷新"
-                placement="top">
-      <el-icon :size="20"
-               @click="handleRefresh"
-               class="icon-btn">
+    <el-tooltip class="box-item" effect="dark" content="刷新" placement="top">
+      <el-icon :size="20" @click="handleRefresh" class="icon-btn">
         <Refresh />
       </el-icon>
     </el-tooltip>
 
     <div class="header-right ml-auto flex items-center mx-10">
-      <el-tooltip class="box-item"
-                  effect="dark"
-                  content="视频"
-                  placement="top">
-        <el-icon :size="20"
-                 class="icon-btn">
+      <el-tooltip class="box-item" effect="dark" content="视频" placement="top">
+        <el-icon :size="20" class="icon-btn">
           <VideoCamera />
         </el-icon>
       </el-tooltip>
-      <el-tooltip class="box-item"
-                  effect="dark"
-                  content="全屏"
-                  placement="top">
-        <el-icon :size="20"
-                 class="icon-btn"
-                 @click="toggle">
+      <el-tooltip class="box-item" effect="dark" content="全屏" placement="top">
+        <el-icon :size="20" class="icon-btn" @click="toggle">
           <FullScreen v-if="!isFullscreen" />
           <Aim v-else />
         </el-icon>
       </el-tooltip>
 
-      <el-dropdown trigger="click"
-                   class="mx-3"
-                   @command="handleCommand">
+      <el-dropdown trigger="click" class="mx-3" @command="handleCommand">
         <span class="el-dropdown-link flex items-center text-light-50 cursor-pointer">
-          <el-avatar v-if="userStore.user && userStore.user.avatar"
-                     :size="50"
-                     :src="userStore.user.avatar"
-                     class="mx-2" />
+          <el-avatar v-if="userStore.user && userStore.user.avatar" :size="50" :src="userStore.user.avatar" class="mx-2" />
           {{ userStore.user?.username }}
         </span>
         <template #dropdown>
@@ -167,32 +146,19 @@ const rules = reactive<FormRules>({
         </template>
       </el-dropdown>
     </div>
-    <DrawerComponent v-model="isDrawerShow"
-                     size="30%"
-                     direction="rtl"
-                     title="修改密码"
-                     confirm-text="确认"
-                     ref="drawerRef"
-                     @submit="confirmClick(formRef)">
+    <DrawerComponent size="30%" direction="rtl" title="修改密码" confirm-text="确认" ref="drawerRef" @submit="confirmClick(formRef)">
       <template #header>
       </template>
       <template #default>
         <div class="text-black">
-          <el-form label-width="100px"
-                   :model="formModel"
-                   :rules="rules"
-                   ref="formRef"
-                   style="max-width: 600px">
-            <el-form-item label="旧密码"
-                          prop="oldpassword">
+          <el-form label-width="100px" :model="formModel" :rules="rules" ref="formRef" style="max-width: 600px">
+            <el-form-item label="旧密码" prop="oldpassword">
               <el-input v-model.trim="formModel.oldpassword" />
             </el-form-item>
-            <el-form-item label="新密码"
-                          prop="newpassword">
+            <el-form-item label="新密码" prop="newpassword">
               <el-input v-model.trim="formModel.newpassword" />
             </el-form-item>
-            <el-form-item label="再次输入"
-                          prop="repassword">
+            <el-form-item label="再次输入" prop="repassword">
               <el-input v-model.trim="formModel.repassword" />
             </el-form-item>
           </el-form>

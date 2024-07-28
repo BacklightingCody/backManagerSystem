@@ -14,10 +14,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
-    meta: {
-      title: '首页',
-      roles: ['超级管理员']
-    },
+    // meta: {
+    //   title: '',
+    //   roles: ['超级管理员']
+    // },
     component: () => import('@/layout/index.vue'),
     children: [
       {
@@ -60,7 +60,6 @@ const options: RouterOptions = {
 
 // Router是路由对象类型
 export const router: Router = createRouter(options)
-
 router.beforeEach(async (to, from, next) => {
   startProgress()
   const userStore = useUserStore()
@@ -82,24 +81,21 @@ router.beforeEach(async (to, from, next) => {
     return next({ path: from.path || '/' })
   }
   // 如果 token 存在且用户信息未获取，则获取用户信息
-  const hasNewRoutes = false
+  let hasNewRoutes = false
   if (token) {
-    console.log(userStore.isGetedInfo, 'kxc')
+    // console.log(userStore.isGetedInfo, 'kxc')
     if (!userStore.isGetedInfo) {
       await userStore.getUserInfo()
     }
-    console.log(userStore.ruleNames, 'ruleNames')
-    // console.log(userStore.user!.menus, 222)
-    // addRouteDynamical(userStore.user!.menus)
-    // hasNewRoutes = addRouteDynamical(userStore.user!.menus)
-    addRouteDynamical(userStore.user!.menus)
+    hasNewRoutes = addRouteDynamical(userStore.user!.menus)
   }
   // 设置页面标题
   const title = (to.meta.title ? to.meta.title : '') + '-Vite'
   document.title = title
   console.log(to)
-  // hasNewRoutes ? next(to.fullPath) : next()
-  next()
+  hasNewRoutes ? next(to.fullPath) : next()
+  // hasNewRoutes ? next() : next(to.fullPath)
+  // next()
 })
 
 router.afterEach((to, from, next) => {
@@ -107,28 +103,16 @@ router.afterEach((to, from, next) => {
 })
 // 动态添加路由export const addRouteDynamical = (routes: RouteRecordRaw[]) => {
 export const addRouteDynamical = (menus: any) => {
-  // console.log(menus,"menu")
   // 是否有新的路由
   let hasNewRoutes = false
   const findAndAddRoutes = (routes: any) => {
-    // console.log(routes,'routes')
     routes.forEach((route: any) => {
-      // console.log(route,"route")
-      // console.log(asyncRoutes, "asyncRoutes")
       // console.log(asyncRoutes.find((item) => item.path === '/goods/list'),"find")  能找到没问题
       const item = asyncRoutes.find((item: any) => {
-        // console.log(route, 'route')
-        // console.log(item.path, 'item')
-        if (route) {
-          // console.log(route.frontpath, 'routepath')
-          // console.log(item.path, 'item')
-          // console.log(route.frontpath, "route.path")
-          return item.path === route.frontpath
-        }
+        return item.path === route.frontpath
       })
-      // console.log(item, "item")
-      // console.log(route.frontpath, 'route.name')
-      if (item && !router.hasRoute(item.path!)) {
+
+      if (item && !router.hasRoute(item.name!)) {
         // console.log('已加入')
         router.addRoute('home', item)
         hasNewRoutes = true
@@ -140,6 +124,6 @@ export const addRouteDynamical = (menus: any) => {
     })
   }
   findAndAddRoutes(menus)
-  console.log(router.getRoutes(), 'getRoutes')
+  // console.log(router.getRoutes(), 'getRoutes')
   return hasNewRoutes
 }
