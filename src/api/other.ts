@@ -35,12 +35,11 @@ export function deleteImage(ids: number[]) {
 }
 // 上传图片
 export function uploadImage(image_class_id: number, img: File[]) {
-
   return request.post(
     `image/upload`,
     {
       image_class_id,
-      img: img.map(item => item.raw)
+      img: img.map((item) => item.raw)
     },
     {
       headers: {
@@ -48,4 +47,23 @@ export function uploadImage(image_class_id: number, img: File[]) {
       }
     }
   )
+}
+// 获取公告列表
+export function getNotice(page: number) {
+  return request.get(`/notice/${page}`)
+}
+// 增加公告
+export function addNotice(data: { title: string; content: string }) {
+  return request.post(`/notice`, data)
+}
+// 更新公告
+export function updateNotice(
+  id: number,
+  data: { title: string; content: string }
+) {
+  return request.post(`/notice/${id}`, data)
+}
+// 删除公告
+export function deleteNotice(id: number) {
+  return request.post(`notice/${id}/delete`)
 }

@@ -4,13 +4,14 @@
     <span>
       <el-button type="primary" :icon="Edit" px-1 text @click.stop="$emit('edit')">
       </el-button>
-      <el-popconfirm title="确定删除吗？"  confirm-button-text="确定" @confirm="$emit('delete')" width="200px">
-        <template #reference>
-          <el-button type="danger" :icon="Delete" px-1 text>
-          </el-button>
-        </template>
-      </el-popconfirm>
-
+      <span @click.stop="()=>{}">
+        <el-popconfirm title="确定删除吗？" confirm-button-text="确定" @confirm="$emit('delete')" width="200px">
+          <template #reference>
+            <el-button type="danger" :icon="Delete" px-1 text>
+            </el-button>
+          </template>
+        </el-popconfirm>
+      </span>
     </span>
   </div>
 </template>

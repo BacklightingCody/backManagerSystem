@@ -32,10 +32,9 @@ import {
   renameImage,
   deleteImage,
   uploadImage
-} from '@/api/image'
+} from '@/api/other'
 import { Picture, WarningFilled } from '@element-plus/icons-vue'
 import UploadFile from '@/components/UploadFile.vue'
-import { get } from 'http'
 interface ImageList {
   create_time: string
   id: number

@@ -28,7 +28,7 @@ import {
   addImageClass,
   updateImageClass,
   deleteImageClass
-} from '@/api/image'
+} from '@/api/other'
 import { getDate } from '@/utils/getTime'
 import AsideList from './AsideList.vue'
 import DrawerComponent from '@/components/DrawComponent.vue'
