@@ -10,16 +10,18 @@
     </el-header>
     <el-container>
       <ImageAside ref="imageAsideRef" @change-active="handleActiveId" />
-      <ImageMain ref="imageMainRef" />
+      <ImageMain ref="imageMainRef" :showCheck="props.checked" @choosed="handleChoosed" />
     </el-container>
   </el-container>
-
 </template>
 
 <script setup lang="ts">
 import ImageAside from './ImageAside.vue'
 import ImageMain from './ImageMain.vue'
 
+const props = defineProps({
+  checked: Boolean
+})
 const windowHeight = window.innerHeight || document.body.clientHeight
 const h = windowHeight - 64 - 50
 
@@ -37,6 +39,11 @@ const handleActiveId = (id: number) => {
 }
 // ImageMain
 const imageMainRef = ref<InstanceType<typeof ImageMain>>()
+// 处理关于图片选中的emit事件
+const emits = defineEmits(['choosedImage'])
+const handleChoosed = (value: any) => {
+  emits('choosedImage', value)
+}
 </script>
 
 <style scoped lang="scss">

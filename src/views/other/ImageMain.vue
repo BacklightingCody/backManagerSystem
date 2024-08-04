@@ -7,6 +7,9 @@
             <el-image :src="item.url" :key="item.url" lazy fit="cover" class="w-full h-[150px]" :preview-src-list="[item.url]" :initial-index="4" />
             <div class="absolute bottom-[50px] text-white w-full bg-black bg-opacity-40 flex justify-center">{{ item.name }}</div>
             <div class="flex justify-end m-3">
+              <span class="mt-[-6px] mr-3" v-if="props.showCheck">
+                <el-checkbox size="large" v-model="item.checked" @change="handleChooseChange(item)" />
+              </span>
               <el-button type="warning" size="small" plain @click="rename(item.id,item.name)">重命名</el-button>
               <el-popconfirm title="你确认要删除吗？" @confirm="delImage([item.id])" width="250px" :icon="WarningFilled" icon-color="red" confirm-button-text="确认" cancel-button-text="取消">
                 <template #reference>
@@ -22,8 +25,9 @@
     <div class="bottom">
       <el-pagination class="mt-4" background layout="total,prev,pager,next" :total="total" :current-page="currentPgae" :page-size="pageSize" @current-change="handlePageChange" @size-change="handleSizeChange" />
     </div>
+    <upload-file ref="uploadRef" @upload-file="handleUpload"></upload-file>
   </el-main>
-  <upload-file ref="uploadRef" @upload-file="handleUpload"></upload-file>
+
 </template>
 
 <script setup lang="ts">
@@ -35,6 +39,9 @@ import {
 } from '@/api/other'
 import { Picture, WarningFilled } from '@element-plus/icons-vue'
 import UploadFile from '@/components/UploadFile.vue'
+const props = defineProps({
+  showCheck: Boolean
+})
 interface ImageList {
   create_time: string
   id: number
@@ -43,6 +50,7 @@ interface ImageList {
   path: string
   update_time: string
   url: string
+  checked: boolean
 }
 const total = ref(0)
 const imageClassId = ref(168)
@@ -74,7 +82,10 @@ const getImage = async (id: number, page: number) => {
   await getImageData(id, page)
     .then((res: any) => {
       console.log(res, 1111111111111111)
-      imageList.value = res.data.list
+      imageList.value = res.data.list.map((item: ImageList) => {
+        item.checked = false
+        return item
+      })
       total.value = res.data.totalCount
     })
     .finally(() => {
@@ -111,12 +122,34 @@ const delImage = async (ids: number[]) => {
 // 上传文件
 const uploadRef = ref<InstanceType<typeof UploadFile>>()
 const handleUpload = async (file: File[]) => {
-  await uploadImage(imageClassId.value, file).then((res) => {
-    console.log(res)
-  })
+  await uploadImage(imageClassId.value, file)
+    .then((res) => {
+      console.log(res)
+      ElNotification({
+        message: '上传成功',
+        type: 'success'
+      })
+    })
+    .finally(() => {
+      uploadRef.value?.drawerRef?.hideDrawer()
+      getImage(imageClassId.value, 1)
+    })
 }
 function openUploadDrawer(): void {
   uploadRef.value?.drawerRef?.showDrawer()
+}
+// 处理在管理员界面时需要选择图片的操作
+const emits = defineEmits(['choosed'])
+const checkedImage = computed(() => {
+  return imageList.value.filter((item: ImageList) => item.checked)
+})
+function handleChooseChange(item: ImageList) {
+  console.log(item, 123)
+  if (item.checked && checkedImage.value.length > 1) {
+    item.checked = false
+    return ElMessage.error('只能选择一张图片')
+  }
+  emits('choosed', checkedImage.value)
 }
 defineExpose({
   changeId,
@@ -124,12 +157,13 @@ defineExpose({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .top {
   @apply absolute top-0 left-0 right-0 overflow-hidden bottom-[50px] overflow-y-auto;
 }
+
 .bottom {
-  @apply absolute bottom-0 left-0 right-0 h-[50px] flex justify-center;
+  @apply absolute bottom-0 left-0 right-0 h-[50px] flex justify-center
   line-height: 50px;
 }
 </style>

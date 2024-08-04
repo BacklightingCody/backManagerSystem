@@ -39,7 +39,7 @@ export function uploadImage(image_class_id: number, img: File[]) {
     `image/upload`,
     {
       image_class_id,
-      img: img.map((item) => item.raw)
+      img: img.map((item) => item?.raw)
     },
     {
       headers: {

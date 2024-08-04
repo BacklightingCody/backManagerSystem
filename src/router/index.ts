@@ -92,7 +92,7 @@ router.beforeEach(async (to, from, next) => {
   // 设置页面标题
   const title = (to.meta.title ? to.meta.title : '') + '-Vite'
   document.title = title
-  console.log(to)
+  // console.log(to)
   hasNewRoutes ? next(to.fullPath) : next()
   // hasNewRoutes ? next() : next(to.fullPath)
   // next()

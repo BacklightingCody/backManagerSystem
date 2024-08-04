@@ -8,14 +8,23 @@
     //   "path": "./windi.config.ts"
     // }
   ],
-  "include": ["src", "types", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "src",
+    "types",
+    "types/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
   "compilerOptions": {
     "target": "ES6",
     "module": "ESNext",
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "~/*": ["types/*"]
     }
   }
 }

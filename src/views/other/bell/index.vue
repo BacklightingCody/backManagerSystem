@@ -1,15 +1,7 @@
 <template>
   <el-card hover shadow="never" class="border-0">
     <template #header>
-      <div class="card-header flex justify-between">
-        <el-button type="success" @click="handleAdd">新增</el-button>
-
-        <el-tooltip class="box-item" effect="dark" content="刷新" placement="top">
-          <el-button text @click="getNoticeList(1)"><el-icon>
-              <RefreshRight />
-            </el-icon></el-button>
-        </el-tooltip>
-      </div>
+      <ListHeader @add="handleAdd" @refresh="getNoticeList(1)"></ListHeader>
     </template>
     <el-table :data="tableData" style="width: 100%" lazy v-loading="loading" class="cursor-pointer">
       <el-table-column prop="title" label="公告标题" width="200" align="center" />
@@ -36,7 +28,7 @@
       </div>
     </template>
     <DrawerComponent size="35%" direction="rtl" :title="drawerTitle" confirm-text="确认" ref="drawerRef" @submit="handleSubmit">
-      <el-form style="max-width: 600px" :model="ruleForm" ref="noticeRef" :rules="rules" label-width="auto"  status-icon>
+      <el-form style="max-width: 600px" :model="ruleForm" ref="noticeRef" :rules="rules" label-width="auto" status-icon>
         <el-form-item label="公告标题" prop="title" placeholder="请输入公告标题">
           <el-input v-model="ruleForm.title" />
         </el-form-item>
@@ -50,8 +42,8 @@
 
 <script setup lang="ts">
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { RefreshRight } from '@element-plus/icons-vue'
 import { getNotice, addNotice, updateNotice, deleteNotice } from '@/api/other'
+import ListHeader from '@/components/ListHeader.vue'
 import DrawerComponent from '@/components/DrawComponent.vue'
 // table部分
 interface Notice {
@@ -157,7 +149,6 @@ async function handleSubmit() {
         ElMessage.success('修改成功')
         drawerRef.value?.hideDrawer()
         getNoticeList(currentPage.value)
-        
       })
     }
   })

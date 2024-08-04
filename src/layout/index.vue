@@ -24,9 +24,9 @@ onMounted(async () => {
           <TagList></TagList>
           <RouterView v-slot="{Component}">
             <Transition mode="out-in" name="fade">
-              <keep-alive :max="10">
-                <component :is="Component" class="p-[20px] pb-0 w-[1336] box-border" />
-              </keep-alive>
+            <keep-alive :max="10">
+              <component :is="Component" class="p-[20px] pb-0 w-[1336] box-border"/>
+            </keep-alive>
             </Transition>
           </RouterView>
         </el-main>

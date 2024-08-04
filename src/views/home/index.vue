@@ -108,7 +108,6 @@ getStatistics2Data()
       </el-col>
     </el-row>
   </div>
-
 </template>
 
 

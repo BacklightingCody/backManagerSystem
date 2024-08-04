@@ -6,19 +6,19 @@
     <div class="bottom flex justify-center">
       <el-pagination background layout="prev, next" :total="total" :current-page="currentPgae" :page-size="pageSize" class="mt-4" @current-change="handlePageChange" @size-change="handleSizeChange" />
     </div>
+    <DrawerComponent size="40%" direction="rtl" :title="drawerTitle" confirm-text="确认" ref="drawerRef" @submit="handleSubmit">
 
+      <el-form ref="newFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto" class="demo-ruleForm" status-icon>
+        <el-form-item label="相册名称" prop="name">
+          <el-input v-model="ruleForm.name" />
+        </el-form-item>
+        <el-form-item label="排序" prop="order">
+          <el-input-number v-model="ruleForm.order" :min="0" :max="1000" @change="handleChange" />
+        </el-form-item>
+      </el-form>
+    </DrawerComponent>
   </el-aside>
-  <DrawerComponent size="40%" direction="rtl" :title="drawerTitle" confirm-text="确认" ref="drawerRef" @submit="handleSubmit">
 
-    <el-form ref="newFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto" class="demo-ruleForm" status-icon>
-      <el-form-item label="相册名称" prop="name">
-        <el-input v-model="ruleForm.name" />
-      </el-form-item>
-      <el-form-item label="排序" prop="order">
-        <el-input-number v-model="ruleForm.order" :min="0" :max="1000" @change="handleChange" />
-      </el-form-item>
-    </el-form>
-  </DrawerComponent>
 </template>
 
 <script setup lang="ts">
@@ -157,7 +157,7 @@ defineExpose({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .image-aside {
   border-right: solid 1px #eee;
   @apply relative;

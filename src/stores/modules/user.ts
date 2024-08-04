@@ -70,7 +70,7 @@ export const useUserStore = defineStore(
       getInfo().then((res) => {
         getedInfo()
         setUserInfo(res.data)
-        console.log(user.value)
+        // console.log(user.value)
         ElNotification({
           title: '获取信息成功',
           type: 'success'

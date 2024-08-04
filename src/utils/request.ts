@@ -30,7 +30,7 @@ instance.interceptors.response.use(
    
     // 2xx 范围内的状态码都会触发该函数。
     if (response.status === 200) {
-      console.log(111)
+      console.log('')
     }
     if (response.status === 20000) {
       console.log(555)
